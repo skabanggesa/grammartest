@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Articles Grammar Test</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #f8f9fa, #e0eafc);
+      margin: 0;
+      padding: 0;
+      position: relative;
+    }
+    #container {
+      max-width: 800px;
+      margin: 40px auto;
+      background: white;
+      padding: 30px 40px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+    #timer {
+      position: absolute;
+      top: 10px;
+      left: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #dc3545;
+    }
+    h2 {
+      color: #333;
+      text-align: center;
+    }
+    ul, p {
+      color: #555;
+    }
+    button {
+      padding: 12px 24px;
+      margin: 12px 8px 0;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.3s;
+    }
+    button:hover {
+      transform: scale(1.05);
+    }
+    #startBtn    { background: #007bff; color: white; }
+    #nextBtn     { background: #ffc107; color: black; }
+    #submitBtn   { background: #28a745; color: white; }
+    #tryAgainBtn { background: #dc3545; color: white; }
+    #sendResultBtn { background: #17a2b8; color: white; }
+    #logoutBtn   { background: #6f42c1; color: white; }
+
+    #quizArea label {
+      display: inline-block;
+      background-color: #f1f1f1;
+      padding: 8px 16px;
+      margin: 6px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    #quizArea input[type="radio"] {
+      display: none;
+    }
+    #quizArea input[type="radio"]:checked + label {
+      background-color: #d1e7fd;
+      border: 2px solid #007bff;
+    }
+    .answer-group {
+      margin: 15px 0;
+    }
+    #nameInputArea {
+      margin-top: 20px;
+      display: none;
+    }
+    #nameInputArea input {
+      padding: 8px;
+      margin: 8px 0;
+      width: 100%;
+      max-width: 300px;
+      display: block;
+    }
+    @media (max-width: 600px) {
+      #container {
+        padding: 20px;
+      }
+      button {
+        width: 100%;
+        margin: 10px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <div id="timer">⏰ 20:00</div>
+    <h2>Articles Grammar Test</h2>
+<p><strong>Notes:</strong></p>
+<ul>
+  <li>
+    <strong>"a"</strong> – before words that begin with a consonant sound.<br>
+    <em>Examples:</em> a car, a book, a university, a user
+    <hr>
+  </li>
+  <li>
+    <strong>"an"</strong> – before words that begin with a vowel sound.<br>
+    <em>Examples:</em> an apple, an umbrella, an hour, an honest man
+    <hr>
+  </li>
+  <li>
+    <strong>"the"</strong> – for something specific or already mentioned.<br>
+    <em>Examples:</em> the sun, the teacher, the Eiffel Tower, the best player
+    <hr>
+  </li>
+</ul>
+
+    <button id="startBtn">START TEST</button>
+    <div id="quizArea" style="display:none;"></div>
+    <div id="resultArea" style="display:none;"></div>
+
+    <div id="nameInputArea">
+      <label for="studentName">Please enter your name to view results:</label>
+      <input type="text" id="studentName" placeholder="Enter your name">
+      <button id="confirmNameBtn" style="background:#007bff; color:white;">Confirm</button>
+    </div>
+
+    <button id="nextBtn" style="display:none;">Next</button>
+    <button id="submitBtn" style="display:none;">Submit Answers</button>
+    <button id="tryAgainBtn" style="display:none;">TRY AGAIN</button>
+    <button id="sendResultBtn" style="display:none;">SEND RESULT</button>
+    <button id="logoutBtn" style="display:none;">LOG OUT</button>
+  </div>
+
+  <script>
+    const questions = [
+  { q: "She is reading ___ book.", a: "a" },
+  { q: "I saw ___ elephant at ___ zoo yesterday.", a: ["an", "the"] },
+  { q: "He wants to be ___ engineer when he grows up.", a: "an" },
+  { q: "We went to ___ park near our house.", a: "the" },
+  { q: "This is ___ interesting movie.", a: "an" },
+  { q: "I need ___ umbrella because it's raining.", a: "an" },
+  { q: "Do you have ___ pen I can borrow?", a: "a" },
+  { q: "They live in ___ big house on ___ hill.", a: ["a", "the"] },
+  { q: "She is ___ honest person.", a: "an" },
+  { q: "Let's go to ___ cinema tonight.", a: "the" },
+  { q: "It was ___ amazing experience.", a: "an" },
+  { q: "He bought ___ car last week.", a: "a" },
+  { q: "I met her at ___ university.", a: "" }, // no article needed
+  { q: "Can I have ___ apple, please?", a: "an" },
+  { q: "___ sun rises in the east.", a: "The" },
+  { q: "She works as ___ nurse.", a: "a" },
+  { q: "That's ___ unique opportunity.", a: "a" },
+  { q: "I'm going to ___ hospital to visit my uncle.", a: "the" },
+  { q: "There is ___ cat on ___ roof.", a: ["a", "the"] },
+  { q: "She plays ___ piano very well.", a: "the" },
+  { q: "He studies at ___ school nearby.", a: "the" },
+  { q: "It's ___ honor to meet you.", a: "an" },
+  { q: "I want to buy ___ new phone.", a: "a" },
+  { q: "She gave me ___ useful advice.", a: "" }, // uncountable noun
+  { q: "They are eating ___ dinner now.", a: "their" }, // possessive adjective
+  { q: "We had ___ wonderful time at the party.", a: "a" },
+  { q: "Please close ___ door.", a: "the" },
+  { q: "He drives ___ expensive car.", a: "an" },
+  { q: "I need ___ information about this topic.", a: "" }, // uncountable noun
+  { q: "She is ___ best student in the class.", a: "the" },
+  { q: "This is ___ old house.", a: "an" },
+  { q: "We visited ___ Eiffel Tower last summer.", a: "the" },
+  { q: "He is ___ university professor.", a: "a" },
+  { q: "Would you like ___ cup of tea?", a: "a" },
+  { q: "I saw ___ dog outside.", a: "a" },
+  { q: "They went to ___ church to pray.", a: "the" },
+  { q: "She has ___ idea for a new business.", a: "an" },
+  { q: "He works at ___ bank downtown.", a: "the" },
+  { q: "This is ___ orange.", a: "an" },
+  { q: "We're going to ___ airport soon.", a: "the" },
+  { q: "He gave me ___ good news.", a: "some" }, // fixed usage
+  { q: "There is ___ apple and ___ banana on the table.", a: ["an", "a"] },
+  { q: "I saw ___ tiger at ___ zoo.", a: ["a", "the"] },
+  { q: "She is ___ most talented singer here.", a: "the" },
+  { q: "He drinks ___ milk every morning.", a: "" }, // uncountable noun
+  { q: "They went to ___ restaurant across the street.", a: "the" },
+  { q: "This is ___ exciting game!", a: "an" },
+  { q: "She reads ___ newspaper every morning.", a: "the" },
+  { q: "He needs ___ hour to finish his homework.", a: "an" },
+  { q: "There is ___ hotel near ___ beach.", a: ["a", "the"] },
+  { q: "I would like ___ ice cream.", a: "an" },
+  { q: "They play ___ football every weekend.", a: "" }, // no article with sports
+  { q: "She is going to ___ bed soon.", a: "the" },
+  { q: "He likes to read ___ history books.", a: "" }, // plural
+  { q: "This is ___ umbrella that I bought.", a: "the" },
+  { q: "We went to ___ mountains last holiday.", a: "the" },
+  { q: "He is ___ actor and ___ writer.", a: ["an", "a"] },
+  { q: "She goes to ___ school by bus.", a: "" }, // general institution
+  { q: "There is ___ university near my house.", a: "a" },
+  { q: "I need ___ help with this project.", a: "" }, // uncountable noun
+  { q: "He is ___ richest man in the city.", a: "the" },
+  { q: "This is ___ beautiful flower.", a: "a" },
+  { q: "She listens to ___ music every day.", a: "" }, // general
+  { q: "We are waiting for ___ taxi.", a: "a" },
+  { q: "He works in ___ office downtown.", a: "an" },
+  { q: "There is ___ ant on your bag.", a: "an" },
+  { q: "I saw ___ airplane flying overhead.", a: "an" },
+  { q: "She is going to ___ dentist today.", a: "the" },
+  { q: "He gave me ___ interesting book.", a: "an" },
+  { q: "I need ___ glass of water.", a: "a" },
+  { q: "They went to ___ museum last weekend.", a: "the" },
+  { q: "This is ___ European country.", a: "a" },
+  { q: "He eats ___ breakfast every morning.", a: "his" }, // possessive
+  { q: "She is ___ only child in the family.", a: "the" },
+  { q: "We are having ___ dinner together.", a: "" }, // general meal
+  { q: "He is ___ smart boy.", a: "a" },
+  { q: "There is ___ cake on the table.", a: "a" },
+  { q: "I saw ___ movie last night.", a: "a" },
+  { q: "She bought ___ dress from ___ mall.", a: ["a", "the"] },
+  { q: "He is studying ___ biology at ___ university.", a: ["" , ""] }, // no article
+  { q: "This is ___ one-time opportunity.", a: "a" },
+  { q: "She is ___ kind-hearted woman.", a: "a" },
+  { q: "We visited ___ Great Wall of China.", a: "the" },
+  { q: "He writes with ___ pen.", a: "a" },
+  { q: "I saw ___ UFO once!", a: "a" },
+  { q: "She wears ___ glasses to read.", a: "" }, // plural
+  { q: "He is going to ___ university next year.", a: "" }, // general
+  { q: "There is ___ error in this sentence.", a: "an" },
+  { q: "I need ___ help.", a: "" }, // uncountable
+  { q: "She is ___ fastest runner on the team.", a: "the" },
+  { q: "He works at ___ post office.", a: "the" },
+  { q: "This is ___ unusual event.", a: "an" },
+  { q: "I saw ___ bird outside.", a: "a" },
+  { q: "She is going to ___ meeting.", a: "the" },
+  { q: "He is ___ intelligent man.", a: "an" },
+  { q: "They are going to ___ library.", a: "the" },
+  { q: "This is ___ apple pie.", a: "an" },
+  { q: "He plays ___ guitar very well.", a: "the" },
+  { q: "She is ___ doctor in ___ hospital.", a: ["a", "the"] },
+  { q: "There is ___ insect on your shirt!", a: "an" },
+  { q: "I saw ___ helicopter landing.", a: "a" },
+  { q: "He wants to visit ___ moon someday.", a: "the" },
+  { q: "This is ___ easy question.", a: "an" },
+  { q: "She is going to ___ USA next month.", a: "the" },
+  { q: "He is ___ famous artist.", a: "a" },
+  { q: "We are watching ___ TV.", a: "" }, // no article
+  { q: "She is ___ prettiest girl in the room.", a: "the" },
+  { q: "I need ___ pencil to write this note.", a: "a" },
+  { q: "He lives in ___ north of the city.", a: "the" },
+  { q: "There is ___ banana on the table.", a: "a" },
+  { q: "I want to become ___ teacher.", a: "a" },
+  { q: "She listens to ___ radio every morning.", a: "the" },
+  { q: "He is ___ tallest boy in the class.", a: "the" },
+  { q: "This is ___ honest answer.", a: "an" },
+  { q: "I saw ___ eagle flying high.", a: "an" },
+  { q: "She went to ___ store to buy ___ bread.", a: ["the", "some"] },
+  { q: "He is ___ hardworking employee.", a: "a" },
+  { q: "They live near ___ sea.", a: "the" },
+  { q: "This is ___ unusual situation.", a: "an" },
+  { q: "I saw ___ bear at ___ forest.", a: ["a", "the"] },
+  { q: "She is ___ best dancer here.", a: "the" },
+  { q: "He is ___ MBA graduate.", a: "an" },
+  { q: "I need ___ moment to think.", a: "a" },
+  { q: "They went to ___ concert last night.", a: "the" },
+  { q: "This is ___ historic moment.", a: "a" },
+  { q: "She is ___ vegetarian.", a: "" }, // no article
+  { q: "He is ___ CEO of ___ company.", a: ["a", "the"] },
+  { q: "There is ___ problem with this plan.", a: "a" },
+  { q: "I saw ___ plane flying overhead.", a: "a" },
+  { q: "She is ___ only one who knows the truth.", a: "the" },
+  { q: "He is ___ actor in ___ theater.", a: ["an", "the"] },
+  { q: "This is ___ umbrella.", a: "an" },
+  { q: "She is going to ___ school to study law.", a: "the" },
+  { q: "He is ___ youngest member of the team.", a: "the" },
+  { q: "There is ___ apple juice in the fridge.", a: "" }, // uncountable
+  { q: "I need ___ ride to the station.", a: "a" },
+  { q: "She is ___ most beautiful woman in the world.", a: "the" },
+  { q: "He is ___ honest man.", a: "an" },
+  { q: "We are going to ___ beach tomorrow.", a: "the" },
+  { q: "This is ___ interesting story.", a: "an" },
+  { q: "I saw ___ deer in the forest.", a: "a" },
+  { q: "She is ___ top student in her class.", a: "the" },
+  { q: "He is ___ great leader.", a: "a" },
+  { q: "There is ___ island in the middle of ___ lake.", a: ["an", "the"] },
+  { q: "I want to eat ___ pizza for dinner.", a: "a" },
+  { q: "She is ___ lawyer working in ___ city.", a: ["a", "the"] },
+  { q: "He is ___ fastest runner here.", a: "the" },
+  { q: "There is ___ university near ___ town center.", a: ["a", "the"] },
+  { q: "This is ___ excellent example.", a: "an" },
+  { q: "I need ___ time to finish this task.", a: "" }, // uncountable
+  { q: "She plays ___ violin beautifully.", a: "the" },
+  { q: "He is ___ manager of ___ cafe.", a: ["a", "the"] },
+  { q: "There is ___ snake in the grass!", a: "a" },
+  { q: "She is ___ first person to arrive.", a: "the" },
+  { q: "He is ___ best friend I've ever had.", a: "my" }, // possessive
+  { q: "We went to ___ countryside last weekend.", a: "the" },
+  { q: "This is ___ unique painting.", a: "a" },
+  { q: "I saw ___ octopus at the aquarium.", a: "an" },
+  { q: "She is ___ only daughter in the family.", a: "the" },
+  { q: "He works at ___ factory downtown.", a: "the" },
+  { q: "There is ___ orange on the table.", a: "an" },
+  { q: "I want to buy ___ gift for her.", a: "a" },
+  { q: "She is ___ president of ___ club.", a: ["the", "the"] },
+  { q: "He is ___ honest politician.", a: "an" }
+    ];
+
+    const totalQuestions = 100;
+    let selectedQuestions = [];
+    let currentQuestion = 0;
+    let score = 0;
+    let userAnswers = [];
+    let timeLeft = 20 * 60; // 20 minit
+    let timerInterval;
+
+    const quizArea = document.getElementById("quizArea");
+    const resultArea = document.getElementById("resultArea");
+    const nameInputArea = document.getElementById("nameInputArea");
+    const timerDisplay = document.getElementById("timer");
+
+    const startBtn = document.getElementById("startBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const submitBtn = document.getElementById("submitBtn");
+    const tryAgainBtn = document.getElementById("tryAgainBtn");
+    const sendResultBtn = document.getElementById("sendResultBtn");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    startBtn.addEventListener("click", () => {
+      startBtn.style.display = "none";
+      selectedQuestions = questions.sort(() => 0.5 - Math.random()).slice(0, totalQuestions);
+      showQuestion();
+      startTimer();
+    });
+
+    function startTimer() {
+      timerInterval = setInterval(() => {
+        let minutes = Math.floor(timeLeft / 60);
+        let seconds = timeLeft % 60;
+        timerDisplay.textContent = `⏰ ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          alert("Time is up! Submitting your test...");
+          quizArea.style.display = "none";
+          nextBtn.style.display = "none";
+          submitBtn.style.display = "none";
+          if (!sessionStorage.getItem("studentName")) {
+            nameInputArea.style.display = "block";
+          } else {
+            showResults();
+          }
+        }
+        timeLeft--;
+      }, 1000);
+    }
+
+    function showQuestion() {
+      const q = selectedQuestions[currentQuestion];
+      quizArea.style.display = "block";
+      quizArea.innerHTML = `<h3>Question ${currentQuestion + 1} of ${totalQuestions}</h3><p>${q.q}</p>`;
+      const answers = ["a", "an", "the", "no article"];
+
+      if (Array.isArray(q.a)) {
+        for (let i = 0; i < q.a.length; i++) {
+          const group = document.createElement("div");
+          group.className = "answer-group";
+          const title = document.createElement("p");
+          title.textContent = `Answer ${i + 1}:`;
+          group.appendChild(title);
+
+          answers.forEach(ans => {
+            const input = document.createElement("input");
+            input.type = "radio";
+            input.name = `answer${i}`;
+            input.id = `answer${i}_${ans}`;
+            input.value = ans;
+
+            const label = document.createElement("label");
+            label.setAttribute("for", `answer${i}_${ans}`);
+            label.textContent = ans;
+
+            group.appendChild(input);
+            group.appendChild(label);
+          });
+
+          quizArea.appendChild(group);
+        }
+      } else {
+        const group = document.createElement("div");
+        group.className = "answer-group";
+        answers.forEach(ans => {
+          const input = document.createElement("input");
+          input.type = "radio";
+          input.name = "answer0";
+          input.id = `answer0_${ans}`;
+          input.value = ans;
+
+          const label = document.createElement("label");
+          label.setAttribute("for", `answer0_${ans}`);
+          label.textContent = ans;
+
+          group.appendChild(input);
+          group.appendChild(label);
+        });
+        quizArea.appendChild(group);
+      }
+
+      nextBtn.style.display = "inline-block";
+    }
+
+    nextBtn.addEventListener("click", () => {
+      const q = selectedQuestions[currentQuestion];
+
+      if (Array.isArray(q.a)) {
+        const a1 = document.querySelector('input[name="answer0"]:checked');
+        const a2 = document.querySelector('input[name="answer1"]:checked');
+        if (!a1 || !a2) return alert("Please select both answers.");
+        userAnswers.push([a1.value, a2.value]);
+        if (a1.value === q.a[0] && a2.value === q.a[1]) score++;
+      } else {
+        const a = document.querySelector('input[name="answer0"]:checked');
+        if (!a) return alert("Please select an answer.");
+        userAnswers.push(a.value);
+        if (a.value === q.a) score++;
+      }
+
+      currentQuestion++;
+      if (currentQuestion < totalQuestions) {
+        showQuestion();
+      } else {
+        quizArea.style.display = "none";
+        nextBtn.style.display = "none";
+        submitBtn.style.display = "inline-block";
+      }
+    });
+
+    submitBtn.addEventListener("click", () => {
+      clearInterval(timerInterval);
+      submitBtn.style.display = "none";
+      if (!sessionStorage.getItem("studentName")) {
+        nameInputArea.style.display = "block";
+      } else {
+        showResults();
+      }
+    });
+
+    document.getElementById("confirmNameBtn").addEventListener("click", () => {
+      const name = document.getElementById("studentName").value.trim();
+      if (name) {
+        sessionStorage.setItem("studentName", name);
+        nameInputArea.style.display = "none";
+        showResults();
+      } else {
+        alert("Please enter your name.");
+      }
+    });
+
+    function showResults() {
+      clearInterval(timerInterval);
+      const studentName = sessionStorage.getItem("studentName") || "Student";
+      let grade = "", feedback = "", suggestion = "";
+
+      if (score >= 80) {
+        grade = "A"; feedback = "Excellent!"; suggestion = "Congratulations! You have demonstrated an excellent understanding of this topic. Your work shows thorough comprehension, attention to detail, and a strong ability to apply concepts effectively. Keep up the great work—your dedication and effort are clearly paying off!";
+      } else if (score >= 60) {
+        grade = "B"; feedback = "Good job."; suggestion = "Well done! You have a solid grasp of the material, with only minor areas for improvement. Your performance reflects good effort and understanding, but refining certain concepts could help you reach an even higher level. Keep pushing yourself—you’re on the right track!";
+      } else if (score >= 40) {
+        grade = "C"; feedback = "Needs improvement."; suggestion = "You have a basic understanding of the topic, but there is room for growth. Reviewing key concepts and practicing more will help strengthen your knowledge. With a little more effort and focus, you can definitely improve—don’t hesitate to ask for help if needed!";
+      } else if (score >=20) {
+        grade = "D"; feedback = "Poor."; suggestion = "Your performance indicates that you are struggling with some of the core concepts of this topic. It’s important to revisit the material, seek clarification, and put in extra practice. With determination and support, you can work toward a better understanding—don’t give up!";
+      } else {
+        grade = "E"; feedback = "Failed."; suggestion = "Unfortunately, your results show significant difficulty with this topic. It’s crucial to review the fundamentals, seek help from your teacher or peers, and dedicate more time to studying. Improvement is possible with focused effort—take this as an opportunity to learn and grow.";
+      }
+
+      resultArea.innerHTML = `
+        <h3>Results</h3>
+        <p><strong>Name:</strong> ${studentName}</p>
+        <p><strong>Score:</strong> ${score} / ${totalQuestions}</p>
+        <p><strong>Grade:</strong> ${grade}</p>
+        <p><strong>Feedback:</strong> ${feedback}</p>
+        <p><strong>Suggestion:</strong> ${suggestion}</p>
+      `;
+      resultArea.style.display = "block";
+      tryAgainBtn.style.display = "inline-block";
+      sendResultBtn.style.display = "inline-block";
+      logoutBtn.style.display = "inline-block";
+    }
+
+    tryAgainBtn.addEventListener("click", () => window.location.reload());
+    logoutBtn.addEventListener("click", () => window.location.href = "index.html");
+sendResultBtn.addEventListener("click", () => {
+  const name = sessionStorage.getItem("studentName") || "Student";
+  const percent = (score / totalQuestions) * 100;
+
+  let grade = "", feedback = "", suggestion = "";
+
+  if (percent >= 80) {
+    grade = "A"; feedback = "🌟 Excellent!"; suggestion = "✅ Keep up the great work!";
+  } else if (percent >= 60) {
+    grade = "B"; feedback = "👍 Good job."; suggestion = "📘 You're on the right track.";
+  } else if (percent >= 40) {
+    grade = "C"; feedback = "⚠️ Needs improvement."; suggestion = "📝 Practice more.";
+  } else if (percent >= 20) {
+    grade = "D"; feedback = "😟 Poor."; suggestion = "🔁 Revise the topic again.";
+  } else {
+    grade = "E"; feedback = "❌ Failed."; suggestion = "📚 Review the basics.";
+  }
+
+  const msg = `📘 *Grammar Topic: Articles*`
+            + `\n👤 *Name:* ${name}`
+            + `\n✅ *Score:* ${score} / ${totalQuestions}`
+            + `\n🎓 *Grade:* ${grade}`
+            + `\n💬 *Feedback:* ${feedback}`
+            + `\n📝 *Suggestion:* ${suggestion}`;
+
+  const url = `https://wa.me/60106607787?text=${encodeURIComponent(msg)}`;
+  window.open(url, '_blank');
+});
+  </script>
+</body>
+</html>

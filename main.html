@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Choose Grammar Topic</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #eef;
+      padding: 20px;
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 20px;
+    }
+    .username {
+      font-weight: bold;
+      margin-bottom: 30px;
+    }
+    .topics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      max-width: 800px;
+      margin: auto;
+    }
+    button {
+      padding: 15px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      background: #007bff;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h2>Welcome to Grammar Test</h2>
+  <div class="topics">
+    <button onclick="goTo('articles.html')">Articles</button>
+    <button onclick="goTo('verbs.html')">Verbs</button>
+    <button onclick="goTo('nouns.html')">Nouns</button>
+    <button onclick="goTo('prepositions.html')">Prepositions</button>
+    <button onclick="goTo('adjectives.html')">Adjectives</button>
+    <button onclick="goTo('pronouns.html')">Pronouns</button>
+    <button onclick="goTo('posessive.html')">Possessive Pronouns</button>
+    <button onclick="goTo('conjunctions.html')">Conjunctions</button>
+  </div>
+
+  <script>
+    function goTo(file) {
+      window.location.href = file;
+    }
+  </script>
+</body>
+</html>

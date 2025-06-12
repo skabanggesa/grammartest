@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>English Grammar Test - Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      display: flex;
+      height: 100vh;
+      justify-content: center;
+      align-items: center;
+    }
+    .login-container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px gray;
+    }
+    h2 {
+      text-align: center;
+    }
+    input {
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    .error {
+      color: red;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h2>Login Grammar Test</h2>
+    <input type="text" id="username" placeholder="Enter Username">
+    <input type="password" id="password" placeholder="Enter Password">
+    <button onclick="login()">Login</button>
+    <div class="error" id="error-msg"></div>
+  </div>
+
+  <script>
+    const users = [
+      { username: "AFRIQ", password: "12142867" },
+      { username: "MIKHAEL", password: "13142870" },
+      { username: "BADRIYYA", password: "13142875" },
+      { username: "DARWIS", password: "13143031" },
+      { username: "ISDAMIN", password: "13143033" },
+      { username: "SYAFARUDDIN", password: "13143036" },
+      { username: "IEZZARIEL", password: "13143362" },
+      { username: "ATTA", password: "13143364" },
+      { username: "SYAFIQ", password: "13143387" },
+      { username: "AIDIL", password: "13143389" },
+      { username: "RYKARL", password: "13143392" },
+      { username: "HAMIZAN", password: "13280536" },
+      { username: "NIDZAM", password: "13144397" },
+      { username: "DAMIYA", password: "13144314" },
+      { username: "NUFAIL", password: "13144320" },
+      { username: "ULYAA", password: "13144322" },
+      { username: "AULIA", password: "13144326" },
+      { username: "AZMINA", password: "13144241" },
+      { username: "FATIMAH", password: "13144344" },
+      { username: "SATIRAH", password: "13144822" },
+      { username: "NURNABILA", password: "13144824" },
+      { username: "ARIANA", password: "13144866" },
+      { username: "RASYA", password: "13144868" },
+      { username: "SHAFA", password: "13269636" },
+      { username: "SYAZWAN", password: "14497683" },
+      { username: "DANIEL", password: "14186843" },
+      { username: "DAYYAN", password: "14186847" },
+      { username: "FAEYZA", password: "14186974" },
+      { username: "FAIQA", password: "14186976" },
+      { username: "AZWAR", password: "14186987" },
+      { username: "ARSYAD", password: "14187010" },
+      { username: "HABIB", password: "14187021" },
+      { username: "SHAHIRAH", password: "14187024" },
+      { username: "AIRIEN", password: "14187055" },
+      { username: "ALIYA", password: "14187058" },
+      { username: "QASRIENA", password: "14187069" },
+      { username: "FATIYYA", password: "14187077" },
+      { username: "ISMAHANI", password: "14188127" },
+      { username: "ARNEESA", password: "14188152" },
+      { username: "QAISARA", password: "14188158" },
+      { username: "IWANI", password: "13649547" },
+      { username: "SYAAKIRAH", password: "13643048" },
+      { username: "IZARA", password: "13647553" },
+      { username: "AQMAR", password: "13647477" },
+      { username: "AQASHAH", password: "13647555" },
+      { username: "AINUL", password: "13649411" },
+      { username: "HARRAZ", password: "13649419" },
+      { username: "MYA", password: "13649555" },
+      { username: "ALISA", password: "13642894" },
+      { username: "FATIHAH", password: "13642898" }
+    ];
+
+    function login() {
+      const username = document.getElementById('username').value.trim().toUpperCase();
+      const password = document.getElementById('password').value.trim();
+      const user = users.find(u => u.username === username && u.password === password);
+
+      if (user) {
+        localStorage.setItem("grammar_username", username);
+        window.location.href = "main.html";
+      } else {
+        document.getElementById("error-msg").textContent = "Invalid username or password.";
+      }
+    }
+  </script>
+</body>
+</html>
